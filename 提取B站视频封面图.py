@@ -32,26 +32,30 @@ def getpicture():
     imagelist = soup.head.contents
     for i in enumerate(imagelist):
         if str(i).find('itemprop="thumbnailUrl"') != -1:
-            pictureurl = requests.get(i[1]['content'])
+            if i[1]['content'] != "":
+                # print(i[1]['content'])
+                pictureurl = requests.get(i[1]['content'])
 
-            with open(str(bvcode) + '.jpg', 'wb') as f:
-                f.write(pictureurl.content)
-                print('保存图片成功')
-                print("windows系统可以继续下一步打开图片，其他系统的不确定,图片默认保存在脚本同文件夹下，BV号是文件名")
-                pictureopen = input("打开图片请输0，不打开请输1：")
-                if int(pictureopen) == 0:
-                    print('三秒后自动打开图片')
-                    print(3)
-                    time.sleep(1)
-                    print(2)
-                    time.sleep(1)
-                    print(1)
-                    time.sleep(1)
-                    im = Image.open(str(bvcode) + '.jpg')
-                    im.show()
-                elif int(pictureopen) == 1:
-                    print("你选择了不打开图片，程序自动结束")
-                    exit()
+                with open(str(bvcode) + '.jpg', 'wb') as f:
+                    f.write(pictureurl.content)
+                    print('保存图片成功')
+                    print("windows系统可以继续下一步打开图片，其他系统的不确定,图片默认保存在脚本同文件夹下，BV号是文件名")
+                    pictureopen = input("打开图片请输0，不打开请输1：")
+                    if int(pictureopen) == 0:
+                        print('三秒后自动打开图片')
+                        print(3)
+                        time.sleep(1)
+                        print(2)
+                        time.sleep(1)
+                        print(1)
+                        time.sleep(1)
+                        im = Image.open(str(bvcode) + '.jpg')
+                        im.show()
+                    elif int(pictureopen) == 1:
+                        print("你选择了不打开图片，程序自动结束")
+                        exit()
+            else:
+                print("这个视频没有封面或者获取失败")
         elif str(i).find('itemprop="thumbnailUrl"') == -1:
             1 == 1
         else:
