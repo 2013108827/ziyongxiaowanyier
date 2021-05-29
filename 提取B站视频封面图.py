@@ -4,12 +4,27 @@ import requests
 import os
 import time
 
+
 def getpicture():
-    BVcode = input("请输入B站视频BV号:")
+    BVcode = input("请输入B站视频BV号或视频网址:")
     print('开始获取')
-    url = "https://www.bilibili.com/video/" + str(BVcode)
+    if len(str(BVcode)) > 20:
+        if BVcode.find("?") == -1:
+            bvcode = BVcode[BVcode.find("BV"):]
+        else:
+            bvcode = BVcode[BVcode.find("BV"):BVcode.find("?")]
+            if bvcode.find("/") != -1:
+                bvcode = bvcode[:bvcode.find("/")]
+        print("成功获取到BV号")
+        print('BV号是：' + bvcode)
+    else:
+        bvcode = BVcode
+        print("成功获取到BV号")
+        print('BV号是：' + bvcode)
+
+    url = url = "https://www.bilibili.com/video/" + str(bvcode)
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36'}
-    response = requests.get(url, headers=headers, timeout=100)
+    response = requests.get(url, headers=headers, timeout=10)
     html_str = response.text
 
     soup = BeautifulSoup(html_str, 'lxml')
@@ -19,7 +34,7 @@ def getpicture():
         if str(i).find('itemprop="thumbnailUrl"') != -1:
             pictureurl = requests.get(i[1]['content'])
 
-            with open(str(BVcode) + '.jpg', 'wb') as f:
+            with open(str(bvcode) + '.jpg', 'wb') as f:
                 f.write(pictureurl.content)
                 print('保存图片成功')
                 print("windows系统可以继续下一步打开图片，其他系统的不确定,图片默认保存在脚本同文件夹下，BV号是文件名")
@@ -32,7 +47,7 @@ def getpicture():
                     time.sleep(1)
                     print(1)
                     time.sleep(1)
-                    im = Image.open(str(BVcode) + '.jpg')
+                    im = Image.open(str(bvcode) + '.jpg')
                     im.show()
                 elif int(pictureopen) == 1:
                     print("你选择了不打开图片，程序自动结束")
@@ -60,7 +75,4 @@ elif int(mode) == 0:
 
 else:
     print("别他喵的瞎JB输，看好提示再输")
-
-
-
 
