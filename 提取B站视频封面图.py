@@ -1,6 +1,3 @@
-from bs4 import BeautifulSoup
-from PIL import Image
-import requests
 import os
 import time
 
@@ -63,20 +60,19 @@ def getpicture():
             exit()
 
 
-print('该程序需要先安装beautifulsoup4，Pillow,requests库，你安装好了吗？')
-mode = input("装好了请输入0，没有请输入1，然后回车：")
-if int(mode) == 1:
-    modelist = ['beautifulsoup4', 'Pillow', 'requests']
-    for mo in modelist:
-        command = 'pip install '+ str(mo)            #直接运行命令
-        os.system(command)
-    time.sleep(2)
+if __name__ == "__main__":
+
+    print('该程序需要先安装beautifulsoup4，Pillow,requests库，开始自检')
+    for i in list(modelist):
+        chec = os.system('pip list | findstr ' + str(i))
+        if int(chec) == 0:
+            print(str(i) + "已安装")
+        elif int(chec) == 1:
+            print(str(i) + "模块未安装，开始自动安装")
+            os.system('pip install ' + str(i))
+    from bs4 import BeautifulSoup
+    from PIL import Image
+    import requests
+    print("完成自检\n")
+
     getpicture()
-
-elif int(mode) == 0:
-
-    getpicture()
-
-else:
-    print("别他喵的瞎JB输，看好提示再输")
-
