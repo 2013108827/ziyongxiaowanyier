@@ -1,5 +1,5 @@
-import requests,time,json,os
-from bs4 import BeautifulSoup
+import time,json,os
+
 
 '''
 提取onedrive分享文件下载直链脚本，具体能干啥，我也不清楚。
@@ -70,5 +70,7 @@ if __name__ == "__main__":
         elif int(chec) == 1:
             print(str(i) + "模块未安装，开始自动安装")
             os.system('pip install ' + str(i))
+    import requests
+    from bs4 import BeautifulSoup
     print("完成自检\n")
     dir_link()
