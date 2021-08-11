@@ -40,12 +40,9 @@ def getpicture():
                     pictureopen = input("打开图片请输0，不打开请输1：")
                     if int(pictureopen) == 0:
                         print('三秒后自动打开图片')
-                        print(3)
-                        time.sleep(1)
-                        print(2)
-                        time.sleep(1)
-                        print(1)
-                        time.sleep(1)
+                        for i in range(3):
+                            print(i+1)
+                            time.sleep(1)
                         im = Image.open(str(bvcode) + '.jpg')
                         im.show()
                     elif int(pictureopen) == 1:
